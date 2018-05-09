@@ -1,76 +1,79 @@
 let DBPromise;
 
 (() => {
-  const dbPromise = idb.open("restuarant_app_db", 4, function(db) {
+  const dbPromise = idb.open('restuarant_app_db', 4, function(db) {
     switch (db.oldVersion) {
       case 0: {
-        const keyvalStore = db.createObjectStore("keyval");
-        keyvalStore.put("value is value", "key");
+        const keyvalStore = db.createObjectStore('keyval');
+        keyvalStore.put('value is value', 'key');
       }
 
       // name is the primary key
-      case 1: { // eslint-disable-line
-        db.createObjectStore("people", { keyPath: "name" });
+      case 1: {
+        // eslint-disable-line
+        db.createObjectStore('people', { keyPath: 'name' });
       }
 
       // create index 'favoriteAnimal'
-      case 2: { // eslint-disable-line
-        const peopleStore = db.transaction.objectStore("people");
-        peopleStore.createIndex("animal", "favoriteAnimal"); // named index as 'animal'
+      case 2: {
+        // eslint-disable-line
+        const peopleStore = db.transaction.objectStore('people');
+        peopleStore.createIndex('animal', 'favoriteAnimal'); // named index as 'animal'
       }
 
-      case 3: { // eslint-disable-line
-        const peopleStore = db.transaction.objectStore("people");
-        peopleStore.createIndex("age", "age");
+      case 3: {
+        // eslint-disable-line
+        const peopleStore = db.transaction.objectStore('people');
+        peopleStore.createIndex('age', 'age');
       }
     }
   });
 
   dbPromise.then(db => {
-    const tx = db.transaction("people", "readwrite");
-    const peopleStore = tx.objectStore("people");
+    const tx = db.transaction('people', 'readwrite');
+    const peopleStore = tx.objectStore('people');
     peopleStore.put({
-      name: "Sam Munoz",
+      name: 'Sam Munoz',
       age: 25,
-      favoriteAnimal: "dog"
+      favoriteAnimal: 'dog'
     });
 
     peopleStore.put({
-      name: "Wam ok",
+      name: 'Wam ok',
       age: 34,
-      favoriteAnimal: "cat"
+      favoriteAnimal: 'cat'
     });
 
     peopleStore.put({
-      name: "Kim Bad",
+      name: 'Kim Bad',
       age: 35,
-      favoriteAnimal: "dog"
+      favoriteAnimal: 'dog'
     });
 
     peopleStore.put({
-      name: "Jam Good",
+      name: 'Jam Good',
       age: 21,
-      favoriteAnimal: "dog"
+      favoriteAnimal: 'dog'
     });
 
     return tx.complete;
   });
 
   dbPromise.then(db => {
-    const tx = db.transaction("people");
-    const peopleStore = tx.objectStore("people");
-    const animalIndex = peopleStore.index("animal");
+    const tx = db.transaction('people');
+    const peopleStore = tx.objectStore('people');
+    const animalIndex = peopleStore.index('animal');
 
-    return animalIndex.getAll("dog");
+    return animalIndex.getAll('dog');
     // return animalIndex.getAll();
     // return peopleStore.getAll();
   });
 
   dbPromise
     .then(db => {
-      const tx = db.transaction("people");
-      const peopleStore = tx.objectStore("people");
-      const ageIndex = peopleStore.index("age");
+      const tx = db.transaction('people');
+      const peopleStore = tx.objectStore('people');
+      const ageIndex = peopleStore.index('age');
 
       return ageIndex.openCursor();
     })
@@ -88,39 +91,41 @@ let DBPromise;
     });
 
   dbPromise.then(db => {
-    const tx = db.transaction("keyval");
-    const keyvalStore = tx.objectStore("keyval");
-    return keyvalStore.get("key");
+    const tx = db.transaction('keyval');
+    const keyvalStore = tx.objectStore('keyval');
+    return keyvalStore.get('key');
   });
 
   dbPromise.then(db => {
-    const tx = db.transaction("keyval", "readwrite");
-    const keyvalStore = tx.objectStore("keyval");
-    keyvalStore.put("barValue", "fooKey");
+    const tx = db.transaction('keyval', 'readwrite');
+    const keyvalStore = tx.objectStore('keyval');
+    keyvalStore.put('barValue', 'fooKey');
     return tx.complete;
   });
 
   DBPromise = openIDB();
 
   function openIDB() {
-    return idb.open("restaurant-app", 3, db => {
+    return idb.open('restaurant-app', 3, db => {
       switch (db.oldVersion) {
         case 0: {
           // Create table 'restaurants', primary key is id
-          const store = db.createObjectStore("restaurants", {
-            keyPath: "id"
+          const store = db.createObjectStore('restaurants', {
+            keyPath: 'id'
           });
           // if index is needed, put down below
-          store.createIndex("by-name", "name");
+          store.createIndex('by-name', 'name');
         }
 
-        case 1: { // eslint-disable-line
-          db.createObjectStore("cuisines");
-          db.createObjectStore("neighborhoods");
+        case 1: {
+          // eslint-disable-line
+          db.createObjectStore('cuisines');
+          db.createObjectStore('neighborhoods');
         }
 
-        case 2: { // eslint-disable-line
-          db.createObjectStore("detail", {keyPath: "id"});
+        case 2: {
+          // eslint-disable-line
+          db.createObjectStore('detail', { keyPath: 'id' });
         }
       }
     });
@@ -151,7 +156,8 @@ function formatRestaurantsData(restaurants) {
 /**
  * Common database helper functions.
  */
-class DBHelper {   // eslint-disable-line no-unused-vars
+class DBHelper {
+  // eslint-disable-line no-unused-vars
 
   constructor() {
     this.restaurants = [];
@@ -180,8 +186,8 @@ class DBHelper {   // eslint-disable-line no-unused-vars
         return;
       }
 
-      const tx = db.transaction("restaurants");
-      const store = tx.objectStore("restaurants").index("by-name");
+      const tx = db.transaction('restaurants');
+      const store = tx.objectStore('restaurants').index('by-name');
       return store
         .getAll()
         .then(data => callback(null, data))
@@ -196,8 +202,8 @@ class DBHelper {   // eslint-disable-line no-unused-vars
         return;
       }
 
-      const tx = db.transaction("neighborhoods");
-      const store = tx.objectStore("neighborhoods");
+      const tx = db.transaction('neighborhoods');
+      const store = tx.objectStore('neighborhoods');
       return store
         .getAll()
         .then(data => callback(null, data))
@@ -212,8 +218,8 @@ class DBHelper {   // eslint-disable-line no-unused-vars
         return;
       }
 
-      const tx = db.transaction("cuisines");
-      const store = tx.objectStore("cuisines");
+      const tx = db.transaction('cuisines');
+      const store = tx.objectStore('cuisines');
       return store
         .getAll()
         .then(data => callback(null, data))
@@ -234,8 +240,8 @@ class DBHelper {   // eslint-disable-line no-unused-vars
       .then(formatRestaurantsData)
       .then(data => {
         DBPromise.then(db => {
-          const tx = db.transaction("restaurants", "readwrite");
-          const store = tx.objectStore("restaurants");
+          const tx = db.transaction('restaurants', 'readwrite');
+          const store = tx.objectStore('restaurants');
           data && data.forEach(d => store.put(d));
           return tx.complete;
         });
@@ -253,11 +259,12 @@ class DBHelper {   // eslint-disable-line no-unused-vars
         return;
       }
 
-      const tx = db.transaction("detail");
-      const store = tx.objectStore("detail");
-      return store.get(Number(id))
-        .then(data =>  {
-          console.log("data", data);
+      const tx = db.transaction('detail');
+      const store = tx.objectStore('detail');
+      return store
+        .get(Number(id))
+        .then(data => {
+          console.log('data', data);
           callback(null, data);
         })
         .catch(err => callback(err, null));
@@ -271,8 +278,8 @@ class DBHelper {   // eslint-disable-line no-unused-vars
     fetch(`${DBHelper.DATABASE_URL}/${id}`)
       .then(res => res.json())
       .then(formatSingleRestaurantData)
-      .then((restaurant) => {
-        DBPromise.then((db) => {
+      .then(restaurant => {
+        DBPromise.then(db => {
           const tx = db.transaction('detail', 'readwrite');
           const store = tx.objectStore('detail');
           store.put(restaurant);
@@ -287,7 +294,7 @@ class DBHelper {   // eslint-disable-line no-unused-vars
           callback(null, restaurant);
         } else {
           // Restaurant does not exist in the database
-          callback("Restaurant does not exist", null);
+          callback('Restaurant does not exist', null);
         }
       })
       .catch(error => callback(error, null));
@@ -313,7 +320,6 @@ class DBHelper {   // eslint-disable-line no-unused-vars
    * Fetch restaurants by a neighborhood with proper error handling.
    */
   static fetchRestaurantByNeighborhood(neighborhood, callback) {
-
     // Fetch all restaurants
     DBHelper.fetchRestaurants((error, restaurants) => {
       if (error) {
@@ -340,11 +346,11 @@ class DBHelper {   // eslint-disable-line no-unused-vars
         callback(error, null);
       } else {
         let results = restaurants;
-        if (cuisine != "all") {
+        if (cuisine != 'all') {
           // filter by cuisine
           results = results.filter(r => r.cuisine_type == cuisine);
         }
-        if (neighborhood != "all") {
+        if (neighborhood != 'all') {
           // filter by neighborhood
           results = results.filter(r => r.neighborhood == neighborhood);
         }
@@ -359,7 +365,6 @@ class DBHelper {   // eslint-disable-line no-unused-vars
   static fetchNeighborhoods(callback) {
     // Fetch all restaurants
     DBHelper.fetchRestaurants((error, restaurants) => {
-
       if (error) {
         callback(error, null);
       } else {
@@ -373,8 +378,8 @@ class DBHelper {   // eslint-disable-line no-unused-vars
         );
 
         DBPromise.then(db => {
-          const tx = db.transaction("neighborhoods", "readwrite");
-          const store = tx.objectStore("neighborhoods");
+          const tx = db.transaction('neighborhoods', 'readwrite');
+          const store = tx.objectStore('neighborhoods');
 
           uniqueNeighborhoods &&
             uniqueNeighborhoods.forEach((d, i) => store.put(d, i));
@@ -401,8 +406,8 @@ class DBHelper {   // eslint-disable-line no-unused-vars
         );
 
         DBPromise.then(db => {
-          const tx = db.transaction("cuisines", "readwrite");
-          const store = tx.objectStore("cuisines");
+          const tx = db.transaction('cuisines', 'readwrite');
+          const store = tx.objectStore('cuisines');
 
           uniqueCuisines && uniqueCuisines.forEach((d, i) => store.put(d, i));
         });
@@ -421,8 +426,7 @@ class DBHelper {   // eslint-disable-line no-unused-vars
   /**
    * Restaurant image URL.
    */
-  static imageUrlForRestaurant(restaurant) {
-    const [name, ext] = restaurant.photograph.split(".");
+  static imageUrlForRestaurant(name, ext) {
     return `/img/${name}-320_small.${ext}`;
   }
 
@@ -430,7 +434,7 @@ class DBHelper {   // eslint-disable-line no-unused-vars
    * Generate name of different size of images
    */
   static imageSrcset(restaurant) {
-    const [name, ext] = restaurant.photograph.split(".");
+    const [name, ext] = restaurant.photograph.split('.');
     return `/img/${name}-320_small.${ext} 400w, /img/${name}-640_medium.${ext} 640w, /img/${name}-800_large.${ext} 800w `;
   }
 
@@ -446,5 +450,30 @@ class DBHelper {   // eslint-disable-line no-unused-vars
       animation: google.maps.Animation.DROP
     });
     return marker;
+  }
+
+  static getSourcesForRestaurant(restaurant) {
+    const [filename, ext] = restaurant.photograph.split('.');
+
+    let jpeg = document.createElement('SOURCE');
+    jpeg.setAttribute(
+      'data-srcset',
+      DBHelper.imageUrlForRestaurant(filename, ext)
+    );
+
+    let webp = document.createElement('SOURCE');
+    webp.setAttribute(
+      'data-srcset',
+      DBHelper.imageUrlForRestaurant(filename, 'webp')
+    );
+    webp.setAttribute('type', 'image/webp');
+
+    let fallback = document.createElement('img');
+    fallback.setAttribute(
+      'data-srcset',
+      DBHelper.imageUrlForRestaurant(filename, ext)
+    );
+
+    return [webp, jpeg, fallback];
   }
 }

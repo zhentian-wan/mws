@@ -19,13 +19,15 @@
 
 let restaurants, // eslint-disable-line no-unused-vars
   neighborhoods, // eslint-disable-line no-unused-vars
-  cuisines; // eslint-disable-line no-unused-vars
+  cuisines, // eslint-disable-line no-unused-vars
+  observer; // eslint-disable-line no-unused-vars
 let map; // eslint-disable-line no-unused-vars
 let markers = []; // eslint-disable-line no-unused-vars
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
 document.addEventListener('DOMContentLoaded', () => {
+
   DBHelper.fetchNeighborhoodsFromCache(handleNeighborhoods).then(() => {
     fetchNeighborhoods();
   });
@@ -33,6 +35,25 @@ document.addEventListener('DOMContentLoaded', () => {
     fetchCuisines();
   });
   DBHelper.fetchRestaurantsFromCache(handlerCuisineAndNeighborhod);
+});
+
+/**
+ * Will hot-load images as soon as the element is within the current viewport
+ *
+ */
+observer = new IntersectionObserver(changes => {
+  for (const change of changes) {
+      if (!change.isIntersecting) return;
+      var targets = change.target.childNodes;
+      for (const target of targets) {
+          target.setAttribute('srcset', target.getAttribute('data-srcset'));
+          if (target.tagName === 'IMG') {
+              // src is not supported on SOURCE elements soon (deprecation warning)
+              target.setAttribute('src', target.getAttribute('data-src'));
+          }
+      }
+      observer.unobserve(change.target);
+  }
 });
 
 /**
@@ -114,6 +135,15 @@ window.initMap = () => {
   });
 };
 
+window.showMap = () => {
+  requestAnimationFrame(() => {
+    const contianer = document.getElementById("map-container");
+    contianer.classList.remove('hidden');
+    contianer.classList.add('active');
+    addMarkersToMap(restaurants);
+  });
+}
+
 const handlerCuisineAndNeighborhod = (error, restaurants) => {
   if (error) {
     // Got an error!
@@ -169,7 +199,6 @@ const fillRestaurantsHTML = (restaurants = self.restaurants) => {
   restaurants.forEach(restaurant => {
     ul.append(createRestaurantHTML(restaurant));
   });
-  addMarkersToMap();
 };
 
 /**
@@ -178,11 +207,15 @@ const fillRestaurantsHTML = (restaurants = self.restaurants) => {
 const createRestaurantHTML = restaurant => {
   const li = document.createElement('li');
 
-  const image = document.createElement('img');
+  const image = document.createElement('picture');
+
+  DBHelper.getSourcesForRestaurant(restaurant).map(el => {
+      el.setAttribute('alt', 'Picture of ' + restaurant.name + " restaurant");
+      image.append(el);
+  });
   image.className = 'restaurant-img';
-  image.src = DBHelper.imageUrlForRestaurant(restaurant);
-  image.alt = `Restaurant ${restaurant.name}`;
   li.append(image);
+  observer.observe(image);
 
   const info = document.createElement('div');
   info.className = 'restaurant-info';
