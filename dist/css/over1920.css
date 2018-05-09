@@ -1,0 +1,1 @@
+#restaurants-list{display:-webkit-box;display:-ms-flexbox;display:flex;-ms-flex-wrap:wrap;flex-wrap:wrap;-webkit-box-orient:horizontal;-webkit-box-direction:normal;-ms-flex-direction:row;flex-direction:row}#restaurants-list li{width:calc((100% - 150px)/ 5)}
