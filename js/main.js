@@ -5,14 +5,9 @@
       // site using the default scope.
       navigator.serviceWorker
         .register('/sw.js')
-        .then(function(registration) {
-          console.log('Service worker registration succeeded', registration);
-        })
         .catch(function(error) {
           console.log('Service worker registration failed:', error);
         });
-    } else {
-      console.log('Service workers are not supported.');
     }
   });
 })();
@@ -77,7 +72,6 @@ const handleNeighborhoods = (error, neighborhoods) => {
  * Set neighborhoods HTML.
  */
 const fillNeighborhoodsHTML = (neighborhoods = self.neighborhoods) => {
-  console.log('neighborhoods', neighborhoods);
   const select = document.getElementById('neighborhoods-select');
   neighborhoods.forEach(neighborhood => {
     const option = document.createElement('option');
@@ -166,9 +160,6 @@ const updateRestaurants = () => {
 
   const cuisine = cSelect[cIndex].value;
   const neighborhood = nSelect[nIndex].value;
-
-    console.log("cuisine", cuisine);
-    console.log("neighborhood", neighborhood);
 
   DBHelper.fetchRestaurantByCuisineAndNeighborhood(
     cuisine,

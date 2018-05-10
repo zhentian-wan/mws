@@ -1,4 +1,4 @@
-const CACHE_VERSION = "restaurant_app_v34";
+const CACHE_VERSION = "restaurant_app_v37";
 const contentImgsCache = 'restaurant-content-imgs';
 
 self.addEventListener("install", event => {
@@ -9,11 +9,11 @@ self.addEventListener("install", event => {
     "restaurant.html",
     "offline.html",
     "/js/main.js",
+    "/js/dbhelper.js",
     "/js/restaurant_info.js",
     "/libs/vender.js",
-    "/css/over640.css",
-    "/css/over1024.css",
     "/css/styles.css",
+    "/css/details.css",
     "/css/normalize.css"
   ];
 
@@ -21,7 +21,6 @@ self.addEventListener("install", event => {
     caches
       .open(CACHE_VERSION)
       .then(cache => {
-        console.log("cache all");
         return cache.addAll(urlsToCache);
       })
       .catch(() => {

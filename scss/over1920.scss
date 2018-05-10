@@ -1,9 +1,0 @@
-#restaurants-list {
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-}
-
-#restaurants-list li {
-    width: calc((100% - 150px) / 5);
-}
