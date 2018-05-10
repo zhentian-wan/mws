@@ -12,6 +12,7 @@ const uglify = require('gulp-uglify');
 const babel = require('gulp-babel');
 const htmlmin = require('gulp-htmlmin');
 const responsive = require('gulp-responsive');
+const inlineStyle = require('gulp-inline-style');
 const gConfig = require('./gulp.config.js');
 
 
@@ -21,7 +22,7 @@ gulp.task('default', function (callback) {
 });
 
 gulp.task('start', function (callback) {
-    runSequence('clean', 'copy-build', callback); //run clean first, then copy-build
+    runSequence('clean', 'copy-build', 'inline-css',callback); //run clean first, then copy-build
 });
 
 gulp.task('clean', function (callback) {
@@ -70,6 +71,12 @@ gulp.task('html', function () {
     gulp.src(gConfig.app_file.html_src)
     .pipe(htmlmin({collapseWhitespace: true, removeComments: true, }))
     .pipe(gulp.dest('dist'));
+});
+
+gulp.task('inline-css', function() {
+    return gulp.src(gConfig.build.dir + '/*.html')
+        .pipe(inlineStyle('dist'))
+        .pipe(gulp.dest('dist'));
 });
 
 gulp.task('styles', function () {
@@ -122,6 +129,6 @@ gulp.task('watch', function () {
     gulp.watch(gConfig.app_file.img_src, ['images']);
     gulp.watch(gConfig.app_file.html_src, ['html']);
     gulp.watch(gConfig.app_file.sw_src, ['sw']);
-    gulp.watch(gConfig.app_file.scss_src, ['styles']);
+    gulp.watch(gConfig.app_file.scss_src, ['styles', 'inline-css']);
     gulp.watch(gConfig.app_file.js_src, ['scripts']);
 });
