@@ -1,4 +1,4 @@
-const CACHE_VERSION = "restaurant_app_v37";
+const CACHE_VERSION = "restaurant_app_v38";
 const contentImgsCache = 'restaurant-content-imgs';
 
 self.addEventListener("install", event => {
