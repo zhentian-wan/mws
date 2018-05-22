@@ -1,4 +1,4 @@
-(() => {
+/*(() => {
     window.addEventListener('load', () => {
         if ('serviceWorker' in navigator) {
             // Register a service worker hosted at the root of the
@@ -8,7 +8,7 @@
             });
         }
     });
-})();
+})();*/
 
 let restaurant; // eslint-disable-line no-unused-vars
 let map; // eslint-disable-line no-unused-vars
@@ -18,9 +18,29 @@ let map; // eslint-disable-line no-unused-vars
  */
 window.initMap = () => {
     fetchRestaurantFromURL(handleFetchRestaurantFromURL);
+    fetchReviewFromURL();
 };
 
-const handleFecthRestaurant = (callback) => (error, restaurant) => {
+const handleFetchReview = (error, reviews) => {
+    if (error) {
+        console.error(error);
+        return;
+    }
+    fillReviewsHTML(reviews);
+}
+
+function fetchReviewFromURL(callback) {
+    const id = getParameterByName("id");
+    if (!id) {
+        // no id found in URL
+        const error = "No restaurant id in URL";
+        callback(error, null);
+    } else {
+        DBHelper.fetchRestaurantReviewById(id, handleFetchReview);
+    }
+}
+
+const handleFetchRestaurant = (callback) => (error, restaurant) => {
     self.restaurant = restaurant;
     if (!restaurant) {
         console.error(error);
@@ -48,7 +68,7 @@ function handleFetchRestaurantFromURL(error, restaurant) {
 /**
  * Get current restaurant from page URL.
  */
-const fetchRestaurantFromURL = callback => {
+const fetchRestaurantFromURL = (callback) => {
     if (self.restaurant) {
         // restaurant already fetched!
         callback(null, self.restaurant);
@@ -60,7 +80,7 @@ const fetchRestaurantFromURL = callback => {
         const error = "No restaurant id in URL";
         callback(error, null);
     } else {
-        DBHelper.fetchRestaurantById(id, handleFecthRestaurant(callback));
+        DBHelper.fetchRestaurantById(id, handleFetchRestaurant(callback));
     }
 };
 
@@ -90,8 +110,6 @@ const fillRestaurantHTML = (restaurant = self.restaurant) => {
     if (restaurant.operating_hours) {
         fillRestaurantHoursHTML();
     }
-    // fill reviews
-    fillReviewsHTML();
 };
 
 /**
@@ -158,7 +176,7 @@ const createReviewHTML = review => {
     li.append(wrapper);
 
     const date = document.createElement("p");
-    date.innerHTML = review.date;
+    date.innerHTML = new Date(review.createdAt).toLocaleDateString();
     date.className = "review-date";
     li.appendChild(date);
 

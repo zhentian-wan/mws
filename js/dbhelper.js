@@ -73,6 +73,11 @@ class DBHelper {
     return `http://localhost:${port}/restaurants`;
   }
 
+  static get REVIEW_URL() {
+    const port = 1337;
+    return `http://localhost:${port}/reviews`;
+  }
+
   static setLocalData(restaurants) {
     this.restaurants = restaurants;
   }
@@ -195,6 +200,15 @@ class DBHelper {
         }
       })
       .catch(error => callback(error, null));
+  }
+
+  static fetchRestaurantReviewById(id, callback) {
+    return fetch(`${DBHelper.REVIEW_URL}/?restaurant_id=${id}`)
+      .then(res => res.json())
+      .then((reviews = []) => {
+        callback(null, reviews);
+      })
+      .catch(err => callback(err, null));
   }
 
   /**
