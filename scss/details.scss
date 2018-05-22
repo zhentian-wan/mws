@@ -79,7 +79,7 @@
 
 .restaurant-map-info #map {
     background-color: #ccc;
-    height: 100%;
+    height: 500px;
     width: 100%;
 }
 
@@ -125,14 +125,14 @@
     border-bottom: 1px solid #d9d9d9;
     border-top: 1px solid #fff;
     padding: 20px 40px 30px;
-}
-
-#reviews-container {
-    padding: 30px 40px 80px;
     position: relative;
 }
 
-#reviews-container h3 {
+#reviews-form-container {
+    padding: 30px 40px 80px;
+}
+
+#reviews-container h3, #reviews-form-container h3 {
     color: #f58500;
     font-size: 24pt;
     font-weight: 300;
@@ -170,7 +170,7 @@
     justify-content: space-between;
 }
 
-#reivew-form {
+#review-form {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -196,19 +196,6 @@
         display: flex;
         justify-content: flex-start;
     }
-}
-
-#review-button {
-    background-color: hsl(33, 100%, 48%);
-    font-weight: bold;
-    font-size: 1.1em;
-    color: white;
-    padding: 15px 20px;
-    top: 30px;
-    right: 40px;
-    position: absolute;
-    cursor: pointer;
-    outline: none;
 }
 
 #review-submit, #review-reset {

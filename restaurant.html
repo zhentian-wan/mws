@@ -55,8 +55,14 @@
             <!-- End map -->
             <!-- Beginning reviews -->
         </section>
+
         <section id="reviews-container" aria-label="Restaurant reviews">
-            <form id="reivew-form" method="POST" name="reviewForm">
+            <ul id="reviews-list"></ul>
+        </section>
+
+        <section id="reviews-form-container">
+            <h3>Submit review</h3>
+            <form id="review-form" method="POST" name="reviewForm">
                 <label>
                     Your name:
                     <br />
@@ -84,8 +90,9 @@
                     <button type="reset" id="review-reset">Reset</button>
                 </div>
             </form>
-            <ul id="reviews-list"></ul>
         </section>
+
+
         <!-- End reviews -->
     </main>
     <!-- End main -->

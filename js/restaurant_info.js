@@ -23,16 +23,13 @@ window.initMap = () => {
 };
 
 
-
-
-
 const handleFetchReview = (error, reviews) => {
     if (error) {
         console.error(error);
         return;
     }
     fillReviewsHTML(reviews);
-    const reviewForm = document.getElementById('reivew-form');
+    const reviewForm = document.getElementById('review-form');
     reviewForm.addEventListener('submit', hanldePostReview);
 }
 
@@ -43,7 +40,7 @@ function hanldePostReview(event) {
     const comments = document.getElementById('review-textarea-comments').value ||'';
 
     console.log(name, rating, comments);
-   //
+
 }
 
 function fetchReviewFromURL(callback) {
@@ -157,15 +154,6 @@ const fillReviewsHTML = (reviews = self.restaurant.reviews) => {
     const title = document.createElement("h3");
     title.innerHTML = "Reviews";
     container.appendChild(title);
-
-    const addNewButton = document.createElement('button');
-    addNewButton.setAttribute('id', "review-button");
-    addNewButton.addEventListener('click', () => {
-        alert("open reveiw form");
-     });
-
-    addNewButton.innerHTML = "Give review";
-    container.append(addNewButton);
 
     if (!reviews) {
         const noReviews = document.createElement("p");
