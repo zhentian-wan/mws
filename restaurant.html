@@ -13,73 +13,100 @@
 </head>
 
 <body class="inside">
-<!-- Beginning header -->
-<header>
-    <!-- Beginning nav -->
-    <nav>
-        <h1>
-            <a href="/">Restaurant Reviews</a>
-        </h1>
-    </nav>
-    <!-- Beginning breadcrumb -->
-    <ul aria-label="Breadcrumb" id="breadcrumb" role="navigation">
-        <li>
-            <a href="/">Home</a>
-        </li>
-    </ul>
+    <!-- Beginning header -->
+    <header>
+        <!-- Beginning nav -->
+        <nav>
+            <h1>
+                <a href="/">Restaurant Reviews</a>
+            </h1>
+        </nav>
+        <!-- Beginning breadcrumb -->
+        <ul aria-label="Breadcrumb" id="breadcrumb" role="navigation">
+            <li>
+                <a href="/">Home</a>
+            </li>
+        </ul>
 
-    <!-- End breadcrumb -->
-    <!-- End nav -->
-</header>
-<!-- End header -->
-<!-- Skip link -->
-<a href="#restaurant-container" aria-label="Skip map to main content" class="skip-link">Skip map to main content</a>
-<!-- Beginning main -->
-<main id="maincontent">
-    <section class="restaurant-map-info">
-        <!-- Beginning restaurant -->
-        <section id="restaurant-container" aria-labelledby="restaurant-name" tabindex="-1">
-            <h2 id="restaurant-name"></h2>
-            <figure>
-                <img id="restaurant-img">
-                <figcaption id="restaurant-cuisine"></figcaption>
-            </figure>
-            <p id="restaurant-address"></p>
-            <table id="restaurant-hours"></table>
+        <!-- End breadcrumb -->
+        <!-- End nav -->
+    </header>
+    <!-- End header -->
+    <!-- Skip link -->
+    <a href="#restaurant-container" aria-label="Skip map to main content" class="skip-link">Skip map to main content</a>
+    <!-- Beginning main -->
+    <main id="maincontent">
+        <section class="restaurant-map-info">
+            <!-- Beginning restaurant -->
+            <section id="restaurant-container" aria-labelledby="restaurant-name" tabindex="-1">
+                <h2 id="restaurant-name"></h2>
+                <figure>
+                    <img id="restaurant-img">
+                    <figcaption id="restaurant-cuisine"></figcaption>
+                </figure>
+                <p id="restaurant-address"></p>
+                <table id="restaurant-hours"></table>
+            </section>
+            <!-- end restaurant -->
+            <!-- Beginning map -->
+            <section id="map-container" aria-label="Google map" role="application">
+                <div id="map"></div>
+            </section>
+            <!-- End map -->
+            <!-- Beginning reviews -->
         </section>
-        <!-- end restaurant -->
-        <!-- Beginning map -->
-        <section id="map-container" aria-label="Google map" role="application">
-            <div id="map"></div>
+        <section id="reviews-container" aria-label="Restaurant reviews">
+            <form id="reivew-form" method="POST" name="reviewForm">
+                <label>
+                    Your name:
+                    <br />
+                    <input type="text" name="name" id="review-input-name" placeholder="Enter your name">
+                </label>
+                <label>
+                    Rating:
+                    <br />
+                    <select name="rating" id="review-select-rating">
+                        <option value="">-- Select one rating --</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </label>
+                <label>
+                    Comments:
+                    <br />
+                    <textarea name="comments" placeholder="Enter your comments" id="review-textarea-comments" cols="30" rows="10" required></textarea>
+                </label>
+                <div class="reivew-form-actions">
+                    <button type="submit" id="review-submit">Submit</button>
+                    <button type="reset" id="review-reset">Reset</button>
+                </div>
+            </form>
+            <ul id="reviews-list"></ul>
         </section>
-        <!-- End map -->
-        <!-- Beginning reviews -->
-    </section>
-    <section id="reviews-container" aria-label="Restaurant reviews">
-        <ul id="reviews-list"></ul>
-    </section>
-    <!-- End reviews -->
-</main>
-<!-- End main -->
+        <!-- End reviews -->
+    </main>
+    <!-- End main -->
 
-<!-- Beginning footer -->
-<footer id="footer">
-    Copyright (c) 2017
-    <a href="/">
-        <strong>Restaurant Reviews</strong>
-    </a> All Rights Reserved.
-</footer>
-<!-- End footer -->
+    <!-- Beginning footer -->
+    <footer id="footer">
+        Copyright (c) 2017
+        <a href="/">
+            <strong>Restaurant Reviews</strong>
+        </a> All Rights Reserved.
+    </footer>
+    <!-- End footer -->
 
-<!-- Beginning scripts -->
-<!-- Main javascript file -->
-<script charset="utf-8" src="libs/vender.js"></script>
-<script charset="utf-8" src="js/dbhelper.js"></script>
-<script src="js/restaurant_info.js"></script>
-<!-- Google Maps -->
-<script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBI8lev0MDR6MAs2vLpVjzmjgfJfIRAZTE&libraries=places&callback=initMap"></script>
-<!-- End scripts -->
+    <!-- Beginning scripts -->
+    <!-- Main javascript file -->
+    <script charset="utf-8" src="libs/vender.js"></script>
+    <script charset="utf-8" src="js/dbhelper.js"></script>
+    <script src="js/restaurant_info.js"></script>
+    <!-- Google Maps -->
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBI8lev0MDR6MAs2vLpVjzmjgfJfIRAZTE&libraries=places&callback=initMap"></script>
+    <!-- End scripts -->
 
 </body>
 

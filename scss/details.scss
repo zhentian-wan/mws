@@ -129,6 +129,7 @@
 
 #reviews-container {
     padding: 30px 40px 80px;
+    position: relative;
 }
 
 #reviews-container h3 {
@@ -167,6 +168,58 @@
 .review-wrapper {
     display: flex;
     justify-content: space-between;
+}
+
+#reivew-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    input, select, textarea {
+        width: 80%;
+    }
+
+    input, select {
+        height: 30px;
+        line-height: 30px;
+        font-size: 1em;
+    }
+
+    label {
+        margin: 5px;
+        width: 100%;
+        font-size: 1.1em;
+        font-weight: bold;
+    }
+
+    .reivew-form-actions {
+        display: flex;
+        justify-content: flex-start;
+    }
+}
+
+#review-button {
+    background-color: hsl(33, 100%, 48%);
+    font-weight: bold;
+    font-size: 1.1em;
+    color: white;
+    padding: 15px 20px;
+    top: 30px;
+    right: 40px;
+    position: absolute;
+    cursor: pointer;
+    outline: none;
+}
+
+#review-submit, #review-reset {
+    background-color: hsl(33, 100%, 48%);
+    font-weight: bold;
+    font-size: 1.1em;
+    color: white;
+    padding: 15px 20px;
+    cursor: pointer;
+    outline: none;
+    margin: 5px 5px;
 }
 
 .review-name {

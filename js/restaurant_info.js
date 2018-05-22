@@ -19,7 +19,12 @@ let map; // eslint-disable-line no-unused-vars
 window.initMap = () => {
     fetchRestaurantFromURL(handleFetchRestaurantFromURL);
     fetchReviewFromURL();
+
 };
+
+
+
+
 
 const handleFetchReview = (error, reviews) => {
     if (error) {
@@ -27,6 +32,18 @@ const handleFetchReview = (error, reviews) => {
         return;
     }
     fillReviewsHTML(reviews);
+    const reviewForm = document.getElementById('reivew-form');
+    reviewForm.addEventListener('submit', hanldePostReview);
+}
+
+function hanldePostReview(event) {
+    event.preventDefault();
+    const name = document.getElementById('review-input-name').value || 'Anonymous';
+    const rating = document.getElementById('review-select-rating').value || '';
+    const comments = document.getElementById('review-textarea-comments').value ||'';
+
+    console.log(name, rating, comments);
+   //
 }
 
 function fetchReviewFromURL(callback) {
@@ -140,6 +157,15 @@ const fillReviewsHTML = (reviews = self.restaurant.reviews) => {
     const title = document.createElement("h3");
     title.innerHTML = "Reviews";
     container.appendChild(title);
+
+    const addNewButton = document.createElement('button');
+    addNewButton.setAttribute('id', "review-button");
+    addNewButton.addEventListener('click', () => {
+        alert("open reveiw form");
+     });
+
+    addNewButton.innerHTML = "Give review";
+    container.append(addNewButton);
 
     if (!reviews) {
         const noReviews = document.createElement("p");
