@@ -19,11 +19,11 @@ const workbox = require('workbox-build');
 
 //Default task
 gulp.task('default', function (callback) {
-    runSequence('start', 'sw', [ 'watch'], callback);
+    runSequence('start', [ 'watch'], callback);
 });
 
 gulp.task('start', function (callback) {
-    runSequence('clean', 'copy-build', 'inline-css',callback); //run clean first, then copy-build
+    runSequence('clean', 'copy-build', 'inline-css', 'generate-service-worker', 'sw', callback); //run clean first, then copy-build
 });
 
 gulp.task('clean', function (callback) {
@@ -121,13 +121,13 @@ gulp.task('libs', function () {
         .pipe(gulp.dest(gConfig.build.build_libs));
 });
 
-gulp.task('sw', () => {
+gulp.task('generate-service-worker', () => {
     return workbox.generateSW({
       globDirectory: `${gConfig.build.dir}`,
       globPatterns: [
         '**/*.{html,js,css,jpeg,png,svg,jpg,webp}'
       ],
-      swDest: `${gConfig.build.dir}/sw.js`,
+      swDest: `./sw.js`,
       clientsClaim: true,
       skipWaiting: true
     }).then(({warnings}) => {
@@ -140,6 +140,11 @@ gulp.task('sw', () => {
       console.warn('Service worker generation failed:', error);
     });
   });
+
+gulp.task('sw', function () {
+    gulp.src(gConfig.app_file.sw_src)
+        .pipe(gulp.dest(gConfig.build.dir));
+});
 
 gulp.task('watch', function () {
     gulp.watch(gConfig.app_file.img_src, ['images']);
