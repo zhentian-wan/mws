@@ -211,6 +211,13 @@ class DBHelper {
       .catch(err => callback(err, null));
   }
 
+  static postNewReview(review) {
+    return fetch(`${DBHelper.REVIEW_URL}/`, {
+      method: 'POST',
+      body: JSON.stringify(review)
+    }).then(res => res.json());
+  }
+
   /**
    * Fetch restaurants by a cuisine type with proper error handling.
    */
