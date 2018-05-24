@@ -1,4 +1,4 @@
-/*(() => {
+(() => {
   window.addEventListener('load', () => {
     if ('serviceWorker' in navigator) {
       // Register a service worker hosted at the root of the
@@ -10,7 +10,7 @@
         });
     }
   });
-})();*/
+})();
 
 let restaurants, // eslint-disable-line no-unused-vars
   neighborhoods, // eslint-disable-line no-unused-vars

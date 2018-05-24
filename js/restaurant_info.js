@@ -1,4 +1,4 @@
-/*(() => {
+(() => {
     window.addEventListener('load', () => {
         if ('serviceWorker' in navigator) {
             // Register a service worker hosted at the root of the
@@ -8,7 +8,8 @@
             });
         }
     });
-})();*/
+})();
+
 
 let restaurant; // eslint-disable-line no-unused-vars
 let map; // eslint-disable-line no-unused-vars
@@ -21,7 +22,7 @@ reviewForm.addEventListener('submit', hanldePostReview);
  */
 window.initMap = () => {
   fetchRestaurantFromURL(handleFetchRestaurantFromURL);
-  fetchReviewFromURL();
+    fetchReviewFromURL();
 };
 
 const handleFetchReview = (error, reviews) => {
@@ -49,7 +50,10 @@ function hanldePostReview(event) {
       rating,
       comments
     })
-      .then(() => fetchReviewFromURL())
+        .then(() => {
+            toastr.success('Your review has been created', 'Restaurant Review');
+            fetchReviewFromURL();
+      })
       .catch(err => {
         console.error('Cannot create new review', err);
       })

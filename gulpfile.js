@@ -14,11 +14,12 @@ const htmlmin = require('gulp-htmlmin');
 const responsive = require('gulp-responsive');
 const inlineStyle = require('gulp-inline-style');
 const gConfig = require('./gulp.config.js');
+const workbox = require('workbox-build');
 
 
 //Default task
 gulp.task('default', function (callback) {
-    runSequence('start', [ 'watch'], callback);
+    runSequence('start', 'sw', [ 'watch'], callback);
 });
 
 gulp.task('start', function (callback) {
@@ -29,7 +30,7 @@ gulp.task('clean', function (callback) {
     return del([gConfig.build.dir], {force: true}, callback);
 });
 
-gulp.task('copy-build', ['html', 'styles', 'sw', 'libs', 'images', 'scripts']);
+gulp.task('copy-build', ['html', 'styles', 'libs', 'images', 'scripts']);
 
 gulp.task('images', function () {
     return gulp.src('img_src/*.{jpg,png}')
@@ -120,10 +121,25 @@ gulp.task('libs', function () {
         .pipe(gulp.dest(gConfig.build.build_libs));
 });
 
-gulp.task('sw', function () {
-    gulp.src(gConfig.app_file.sw_src)
-        .pipe(gulp.dest(gConfig.build.dir));
-});
+gulp.task('sw', () => {
+    return workbox.generateSW({
+      globDirectory: `${gConfig.build.dir}`,
+      globPatterns: [
+        '**/*.{html,js,css,jpeg,png,svg,jpg,webp}'
+      ],
+      swDest: `${gConfig.build.dir}/sw.js`,
+      clientsClaim: true,
+      skipWaiting: true
+    }).then(({warnings}) => {
+      // In case there are any warnings from workbox-build, log them.
+      for (const warning of warnings) {
+        console.warn(warning);
+      }
+      console.info('Service worker generation completed.');
+    }).catch((error) => {
+      console.warn('Service worker generation failed:', error);
+    });
+  });
 
 gulp.task('watch', function () {
     gulp.watch(gConfig.app_file.img_src, ['images']);
