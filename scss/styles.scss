@@ -292,3 +292,10 @@ nav h1 a {
         width: calc((100% - 150px) / 5);
     }
 }
+
+.offline-hint {
+    padding: 2px 4px;
+    color: white;
+    background: red;
+    font-weight: bold;
+}

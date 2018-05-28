@@ -104,9 +104,6 @@ window.showMap = () => {
   script = document.createElement('script');
   script.type = 'text/javascript';
   script.async = true;
-  script.onload = function(){
-    console.log("code loaded");
-  };
   script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBI8lev0MDR6MAs2vLpVjzmjgfJfIRAZTE&libraries=places&callback=initMap';
   document.getElementsByTagName('head')[0].appendChild(script);
 

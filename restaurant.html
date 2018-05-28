@@ -18,6 +18,7 @@
         <nav>
             <h1>
                 <a href="/">Restaurant Reviews</a>
+                <span class="offline offline-hint hidden">offline</span>
             </h1>
         </nav>
         <!-- Beginning breadcrumb -->
@@ -56,7 +57,9 @@
         </section>
 
         <section id="reviews-container" aria-label="Restaurant reviews">
-            <ul id="reviews-list"></ul>
+            <ul id="reviews-list">
+                <h3>Reviews</h3>
+            </ul>
         </section>
 
         <section id="reviews-form-container">
@@ -88,6 +91,11 @@
                     <button type="submit" id="review-submit">Submit</button>
                     <button type="reset" id="review-reset">Reset</button>
                 </div>
+                <div class="hidden offline">
+                    <span style="color: red;">
+                        Your application is current <b>offline</b>, your data will be stored for 24 hours, will post to server when application back online automaticlly.
+                    </span>
+                </div>
             </form>
         </section>
 
@@ -107,12 +115,13 @@
 
     <!-- Beginning scripts -->
     <!-- Main javascript file -->
+    <script charset="utf-8" src="js/network.js"></script>
     <script charset="utf-8" src="libs/vender.js"></script>
     <script charset="utf-8" src="js/dbhelper.js"></script>
     <script src="js/restaurant_info.js"></script>
 
     <!-- Google Maps -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBI8lev0MDR6MAs2vLpVjzmjgfJfIRAZTE&libraries=places&callback=initMap"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBI8lev0MDR6MAs2vLpVjzmjgfJfIRAZTE&libraries=places&callback=initMap"></script>
 </body>
 
 </html>

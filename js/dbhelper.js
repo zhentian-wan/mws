@@ -94,6 +94,7 @@ class DBHelper {
   }
 
   static postNewReview(review) {
+    console.log("posting review", review);
     return fetch(`${DBHelper.REVIEW_URL}/`, {
       method: 'POST',
       body: JSON.stringify(review)

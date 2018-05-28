@@ -10,7 +10,7 @@ workbox.routing.registerRoute(
 
 workbox.routing.registerRoute(
     new RegExp('/restaurant.html'),
-    workbox.strategies.cacheFirst()
+    workbox.strategies.staleWhileRevalidate()
 );
 
 workbox.routing.registerRoute(
@@ -20,18 +20,12 @@ workbox.routing.registerRoute(
 
 workbox.routing.registerRoute(
     new RegExp('http://localhost:1337/restaurants/(\d+)'),
-    workbox.strategies.cacheFirst()
-);
-
-
-workbox.routing.registerRoute(
-    new RegExp('http://localhost:1337/reviews'),
-    workbox.strategies.cacheFirst()
+    workbox.strategies.staleWhileRevalidate()
 );
 
 workbox.routing.registerRoute(
     new RegExp('http://localhost:1337/reviews/?restaurant_id=[0-9]+'),
-    workbox.strategies.cacheFirst()
+    workbox.strategies.staleWhileRevalidate()
 );
 /*
 workbox.routing.registerRoute(
@@ -39,7 +33,7 @@ workbox.routing.registerRoute(
     workbox.strategies.cacheFirst()
 );
 */
-const bgSyncPlugin = new workbox.backgroundSync.Plugin('myQueueName', {
+const bgSyncPlugin = new workbox.backgroundSync.Plugin('reviewQuery', {
     maxRetentionTime: 24 * 60 // Retry for max of 24 Hours
   });
 
@@ -50,3 +44,15 @@ const bgSyncPlugin = new workbox.backgroundSync.Plugin('myQueueName', {
     }),
     'POST'
   );
+
+const queue = new workbox.backgroundSync.Queue('reviewQuery');
+
+self.addEventListener('fetch', (event) => {
+  // Clone the request to ensure it's save to read when
+  // adding to the Queue.
+  const promiseChain = fetch(event.request.clone())
+  .catch((err) => {
+      return queue.addRequest(event.request);
+  });
+  event.waitUntil(promiseChain);
+});

@@ -9,7 +9,7 @@
   },
   "scripts": {
     "start": "gulp",
-    "serve": "cd dist && ../node_modules/.bin/http-server -p 8000"
+    "serve": "cd dist && ../node_modules/.bin/http-server -p 8000 -o"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
@@ -35,6 +35,7 @@
     "gulp-uglify": "^3.0.0",
     "gulp-util": "^3.0.8",
     "http-server": "^0.11.1",
+    "pwa-helpers": "^0.8.2",
     "run-sequence": "^2.2.1",
     "workbox-build": "^3.2.0",
     "workbox-cli": "^3.2.0"

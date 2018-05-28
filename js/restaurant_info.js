@@ -4,6 +4,11 @@ let map; // eslint-disable-line no-unused-vars
 const reviewForm = document.getElementById('review-form');
 reviewForm.addEventListener('submit', hanldePostReview);
 
+(() => {
+  self.installOfflineWatcher((offline) => {
+    isAppOffline(offline);
+  });
+})();
 /**
  * Initialize Google map, called from HTML.
  */
@@ -12,6 +17,19 @@ window.initMap = () => {
   fetchReviewFromURL();
 };
 
+function isAppOffline(offline) {
+  const els = document.querySelectorAll('.offline');
+  if (offline) {
+    els.forEach(el => el.classList.remove('hidden'));
+  } else {
+    els.forEach(el => {
+      if (!el.classList.contains('hidden')) {
+        el.classList.add('hidden');
+      }
+    });
+  }
+}
+
 const handleFetchReview = (error, reviews) => {
   if (error) {
     console.error(error);
@@ -19,6 +37,7 @@ const handleFetchReview = (error, reviews) => {
   }
   fillReviewsHTML(reviews);
 };
+
 
 function hanldePostReview(event) {
   event.preventDefault();
@@ -37,8 +56,8 @@ function hanldePostReview(event) {
       rating,
       comments
     })
-      .then(() => {
-        fetchReviewFromURL();
+      .then((review) => {
+        addToReviewList(review);
         if (reviewForm) {
           reviewForm.reset();
         }
@@ -77,13 +96,15 @@ function handleFetchRestaurantFromURL(error, restaurant) {
     // Got an error!
     console.error(error);
   } else {
-    self.map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 16,
-      center: restaurant.latlng,
-      scrollwheel: false
-    });
-    fillBreadcrumb(restaurant);
-    DBHelper.mapMarkerForRestaurant(restaurant, self.map);
+    if (google) {
+      self.map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 16,
+        center: restaurant.latlng,
+        scrollwheel: false
+      });
+      fillBreadcrumb(restaurant);
+      DBHelper.mapMarkerForRestaurant(restaurant, self.map);
+    }
   }
 }
 
@@ -161,9 +182,6 @@ const fillRestaurantHoursHTML = (
  */
 const fillReviewsHTML = (reviews = self.restaurant.reviews) => {
   const container = document.getElementById('reviews-container');
-  const title = document.createElement('h3');
-  title.innerHTML = 'Reviews';
-  container.appendChild(title);
 
   if (!reviews) {
     const noReviews = document.createElement('p');
@@ -172,10 +190,17 @@ const fillReviewsHTML = (reviews = self.restaurant.reviews) => {
     return;
   }
   const ul = document.getElementById('reviews-list');
+  ul.innerHTML = '';
   reviews.forEach(review => {
     ul.appendChild(createReviewHTML(review));
   });
   container.appendChild(ul);
+};
+
+
+const addToReviewList = (review) => {
+  const ul = document.getElementById('reviews-list');
+  ul.appendChild(createReviewHTML(review));
 };
 
 /**
