@@ -7,12 +7,46 @@ workbox.routing.registerRoute(
     workbox.strategies.cacheFirst()
 );
 
+
 workbox.routing.registerRoute(
-    new RegExp('http://localhost:1337/(restaurants|reviews)'),
+    new RegExp('/restaurant.html'),
     workbox.strategies.cacheFirst()
 );
 
 workbox.routing.registerRoute(
-    new RegExp('http://localhost:1337/(restaurants|reviews)/(\d+)'),
+    new RegExp('http://localhost:1337/restaurants'),
     workbox.strategies.cacheFirst()
 );
+
+workbox.routing.registerRoute(
+    new RegExp('http://localhost:1337/restaurants/(\d+)'),
+    workbox.strategies.cacheFirst()
+);
+
+
+workbox.routing.registerRoute(
+    new RegExp('http://localhost:1337/reviews'),
+    workbox.strategies.cacheFirst()
+);
+
+workbox.routing.registerRoute(
+    new RegExp('http://localhost:1337/reviews/?restaurant_id=[0-9]+'),
+    workbox.strategies.cacheFirst()
+);
+/*
+workbox.routing.registerRoute(
+    new RegExp('https://maps.googleapis.com/maps'),
+    workbox.strategies.cacheFirst()
+);
+*/
+const bgSyncPlugin = new workbox.backgroundSync.Plugin('myQueueName', {
+    maxRetentionTime: 24 * 60 // Retry for max of 24 Hours
+  });
+
+  workbox.routing.registerRoute(
+    /\/reviews/,
+    workbox.strategies.networkOnly({
+      plugins: [bgSyncPlugin]
+    }),
+    'POST'
+  );

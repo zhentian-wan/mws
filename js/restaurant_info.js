@@ -9,7 +9,7 @@ reviewForm.addEventListener('submit', hanldePostReview);
  */
 window.initMap = () => {
   fetchRestaurantFromURL(handleFetchRestaurantFromURL);
-    fetchReviewFromURL();
+  fetchReviewFromURL();
 };
 
 const handleFetchReview = (error, reviews) => {
@@ -37,17 +37,14 @@ function hanldePostReview(event) {
       rating,
       comments
     })
-        .then(() => {
-            toastr.success('Your review has been created', 'Restaurant Review');
-            fetchReviewFromURL();
-      })
-      .catch(err => {
-        console.error('Cannot create new review', err);
-      })
-      .finally(() => {
+      .then(() => {
+        fetchReviewFromURL();
         if (reviewForm) {
           reviewForm.reset();
         }
+      })
+      .catch(err => {
+        console.error('Cannot create new review', err);
       });
   } else {
     console.error('hanldePostReview: No resutaurant id present');
