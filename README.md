@@ -28,7 +28,8 @@ npm run serve
 
 2. With your server running, visit the site: `http://localhost:8000`, and look around for a bit to see what the current experience looks like.
 
-Feature includes:
+
+## Feature includes:
     1. Full offline application
     2. Background sycn for retry posting data when user offline
     3. Able to post new review
@@ -40,10 +41,12 @@ Feature includes:
 We users go offline, there are tow hints to show current application is offline.
 
 First, showing in the header
+
 ![offline hint](offline-hint1.png)
 
 Second, showing in the form
-![offline hint](offline-hint1.png)
+
+![offline hint](offline-hint2.png)
 
 ### Lighthouse scores:
 ![lighthouse](lighthouse-stage3.png)
