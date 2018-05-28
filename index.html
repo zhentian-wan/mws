@@ -8,7 +8,7 @@
     <meta name="theme-color" content="#303F9F">
     <link rel="icon" href="icon.png">
     <link rel="manifest" href="manifest.json">
-    <link rel="stylesheet" href="css/styles.css"> 
+    <link rel="stylesheet" href="css/styles.css">
     <title>Restaurant Reviews</title>
 </head>
 
@@ -54,7 +54,14 @@
     <script charset="utf-8" src="js/dbhelper.js"></script>
     <script charset="utf-8" src="js/main.js"></script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBI8lev0MDR6MAs2vLpVjzmjgfJfIRAZTE&libraries=places&callback=initMap"></script>
-
+    <script>
+        window.addEventListener('load', () => {
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker
+                    .register('/sw.js');
+            }
+        });
+    </script>
     <footer id="footer">
         Copyright (c) 2017
         <a href="/">

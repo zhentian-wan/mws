@@ -1,16 +1,3 @@
-(() => {
-    window.addEventListener('load', () => {
-        if ('serviceWorker' in navigator) {
-            // Register a service worker hosted at the root of the
-            // site using the default scope.
-            navigator.serviceWorker.register('/sw.js').catch(function (error) {
-                console.error('Service worker registration failed:', error);
-            });
-        }
-    });
-})();
-
-
 let restaurant; // eslint-disable-line no-unused-vars
 let map; // eslint-disable-line no-unused-vars
 
