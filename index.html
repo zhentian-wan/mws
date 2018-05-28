@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="theme-color" content="#303F9F">
-    <link rel="icon" href="icon.png">
+    <link rel="icon" href="assets/icon.png">
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="css/styles.css">
     <title>Restaurant Reviews</title>
@@ -46,14 +46,18 @@
             </div>
             <!-- restaurants list -->
             <h2 style="text-align: center;">Restaurant List</h2>
-            <ul id="restaurants-list" aria-label="All restaurants lists"></ul>
+            <ul id="restaurants-list" aria-label="All restaurants lists">
+
+            </ul>
+            <ul id="restaurants-list" aria-label="All restaurants lists">
+            </ul>
         </section>
     </main>
 
     <script charset="utf-8" src="libs/vender.js"></script>
     <script charset="utf-8" src="js/dbhelper.js"></script>
     <script charset="utf-8" src="js/main.js"></script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBI8lev0MDR6MAs2vLpVjzmjgfJfIRAZTE&libraries=places&callback=initMap"></script>
+
     <script>
         window.addEventListener('load', () => {
             if ('serviceWorker' in navigator) {

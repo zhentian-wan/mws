@@ -35,7 +35,7 @@ gulp.task('clean', function(callback) {
   return del([gConfig.build.dir], { force: true }, callback);
 });
 
-gulp.task('copy-build', ['html', 'styles', 'libs', 'images', 'scripts']);
+gulp.task('copy-build', ['html', 'styles', 'libs', 'images', 'assets', 'scripts', 'sw-copy']);
 
 gulp.task('images', function() {
   return gulp
@@ -83,6 +83,11 @@ gulp.task('images', function() {
       )
     )
     .pipe(gulp.dest('dist/img'));
+});
+
+gulp.task('assets', () => {
+  gulp.src(gConfig.app_file.assets)
+    .pipe(gulp.dest(gConfig.build.assets))
 });
 
 gulp.task('html', function() {
@@ -145,10 +150,14 @@ gulp.task('libs', function() {
     .pipe(gulp.dest(gConfig.build.build_libs));
 });
 
+gulp.task('sw-copy', () => {
+  gulp.src('manifest.json').pipe(gulp.dest(gConfig.build.dir));
+})
+
 gulp.task('sw', () => {
   return workbox.injectManifest({
     globDirectory: `${gConfig.build.dir}`,
-    globPatterns: ['**/*.{html,js,css,jpeg,png,svg,jpg,webp}'],
+    globPatterns: ['**/*.{html,js,css,json,png}'],
     swDest: `dist/sw.js`,
     swSrc: 'src-sw.js'
   });

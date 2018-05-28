@@ -29,7 +29,7 @@ npm run serve
 2. With your server running, visit the site: `http://localhost:8000`, and look around for a bit to see what the current experience looks like.
 
 ### Lighthouse scores:
-![lighthouse](lighthouse.png)
+![lighthouse](lighthouse-stage3.png)
 
 
 

@@ -96,14 +96,24 @@ window.initMap = () => {
     scrollwheel: false,
     keyboardShortcuts: false
   });
+  addMarkersToMap(self.restaurants);
 };
 
 window.showMap = () => {
+  let script;
+  script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.async = true;
+  script.onload = function(){
+    console.log("code loaded");
+  };
+  script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBI8lev0MDR6MAs2vLpVjzmjgfJfIRAZTE&libraries=places&callback=initMap';
+  document.getElementsByTagName('head')[0].appendChild(script);
+
   requestAnimationFrame(() => {
     const contianer = document.getElementById("map-container");
     contianer.classList.remove('hidden');
     contianer.classList.add('active');
-    addMarkersToMap(restaurants);
   });
 }
 
@@ -156,9 +166,14 @@ const resetRestaurants = restaurants => {
  */
 const fillRestaurantsHTML = (restaurants = self.restaurants) => {
   const ul = document.getElementById('restaurants-list');
-  restaurants.forEach(restaurant => {
-    ul.append(createRestaurantHTML(restaurant));
-  });
+
+  requestAnimationFrame(() => {
+    const els = document.querySelectorAll('.restaurants-placholder');
+    els.forEach(el => el.classList.add('hidden'));
+    restaurants.forEach(restaurant => {
+      ul.append(createRestaurantHTML(restaurant));
+    });
+  })
 };
 
 /**

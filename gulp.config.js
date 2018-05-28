@@ -15,6 +15,7 @@ module.exports = {
             './manifest.json',
             './icon.png'
         ],
+        assets: './assets/**/*'
     },
     build: {
         dir: './dist',
@@ -24,5 +25,6 @@ module.exports = {
         build_js: './dist/js',
         build_data: './dist/data',
         build_libs: './dist/libs',
+        assets: './dist/assets'
     },
 };
