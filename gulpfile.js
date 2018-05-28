@@ -16,140 +16,148 @@ const inlineStyle = require('gulp-inline-style');
 const gConfig = require('./gulp.config.js');
 const workbox = require('workbox-build');
 
-
 //Default task
-gulp.task('default', function (callback) {
-    runSequence('start', [ 'watch'], callback);
+gulp.task('default', function(callback) {
+  runSequence('start', ['watch'], callback);
 });
 
-gulp.task('start', function (callback) {
-    runSequence('clean', 'copy-build', 'inline-css', 'generate-service-worker', 'sw', callback); //run clean first, then copy-build
+gulp.task('start', function(callback) {
+  runSequence(
+    'clean',
+    'copy-build',
+    'inline-css',
+    'sw',
+    callback
+  ); //run clean first, then copy-build
 });
 
-gulp.task('clean', function (callback) {
-    return del([gConfig.build.dir], {force: true}, callback);
+gulp.task('clean', function(callback) {
+  return del([gConfig.build.dir], { force: true }, callback);
 });
 
 gulp.task('copy-build', ['html', 'styles', 'libs', 'images', 'scripts']);
 
-gulp.task('images', function () {
-    return gulp.src('img_src/*.{jpg,png}')
-        .pipe(responsive({
-            // Resize all JPG images to three different sizes: 200, 500, and 630 pixels
-            '*': [{
-                width: 320,
-                rename: { suffix: '-320_small' },
-            }, {
-                width: 640,
-                rename: { suffix: '-640_medium' },
-            }, {
-                // Compress, strip metadata, and rename original image
-                rename: { suffix: '-800_large' },
+gulp.task('images', function() {
+  return gulp
+    .src('img_src/*.{jpg,png}')
+    .pipe(
+      responsive(
+        {
+          // Resize all JPG images to three different sizes: 200, 500, and 630 pixels
+          '*': [
+            {
+              width: 320,
+              rename: { suffix: '-320_small' }
             },
-                {
-                    width: 320,
-                    rename: { suffix: '-320_small', extname:'.webp' },
-                }, {
-                    width: 640,
-                    rename: { suffix: '-640_medium', extname:'.webp' },
-                }, {
-                    // Compress, strip metadata, and rename original image
-                    rename: { suffix: '-800_large', extname:'.webp' },
-                }]
-        }, {
-            // Global configuration for all images
-            // The output quality for JPEG, WebP and TIFF output formats
-            quality: 70,
-            // Use progressive (interlace) scan for JPEG and PNG output
-            progressive: true,
-            // Strip all metadata
-            withMetadata: false,
-        }))
-        .pipe(gulp.dest('dist/img'));
+            {
+              width: 640,
+              rename: { suffix: '-640_medium' }
+            },
+            {
+              // Compress, strip metadata, and rename original image
+              rename: { suffix: '-800_large' }
+            },
+            {
+              width: 320,
+              rename: { suffix: '-320_small', extname: '.webp' }
+            },
+            {
+              width: 640,
+              rename: { suffix: '-640_medium', extname: '.webp' }
+            },
+            {
+              // Compress, strip metadata, and rename original image
+              rename: { suffix: '-800_large', extname: '.webp' }
+            }
+          ]
+        },
+        {
+          // Global configuration for all images
+          // The output quality for JPEG, WebP and TIFF output formats
+          quality: 70,
+          // Use progressive (interlace) scan for JPEG and PNG output
+          progressive: true,
+          // Strip all metadata
+          withMetadata: false
+        }
+      )
+    )
+    .pipe(gulp.dest('dist/img'));
 });
 
-gulp.task('html', function () {
-    gulp.src(gConfig.app_file.html_src)
-    .pipe(htmlmin({collapseWhitespace: true, removeComments: true, }))
+gulp.task('html', function() {
+  gulp
+    .src(gConfig.app_file.html_src)
+    .pipe(htmlmin({ collapseWhitespace: true, removeComments: true }))
     .pipe(gulp.dest('dist'));
 });
 
 gulp.task('inline-css', function() {
-    return gulp.src(gConfig.build.dir + '/*.html')
-        .pipe(inlineStyle('dist'))
-        .pipe(gulp.dest('dist'));
+  return gulp
+    .src(gConfig.build.dir + '/*.html')
+    .pipe(inlineStyle('dist'))
+    .pipe(gulp.dest('dist'));
 });
 
-gulp.task('styles', function () {
-    gulp.src(gConfig.app_file.scss_src)
-        .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
-        .pipe(autoprefixer({
-            browsers: ['last 2 versions'],
-            cascade: false
-        }))
-        .pipe(minifyCss())
-        .pipe(gulp.dest(gConfig.build.build_css));
+gulp.task('styles', function() {
+  gulp
+    .src(gConfig.app_file.scss_src)
+    .pipe(sass({ outputStyle: 'compressed' }).on('error', sass.logError))
+    .pipe(
+      autoprefixer({
+        browsers: ['last 2 versions'],
+        cascade: false
+      })
+    )
+    .pipe(minifyCss())
+    .pipe(gulp.dest(gConfig.build.build_css));
 });
 
 gulp.task('lint', () => {
-    return gulp.src(['**/*.js', '!node_modules/**'])
-        .pipe(eslint())
-        .pipe(eslint.format())
-        .pipe(eslint.failAfterError());
+  return gulp
+    .src(['**/*.js', '!node_modules/**'])
+    .pipe(eslint())
+    .pipe(eslint.format())
+    .pipe(eslint.failAfterError());
 });
 
-
-gulp.task('scripts', function () {
-    gulp.src(gConfig.app_file.js_src)
-        .pipe(plumber())
-        .pipe(sourcemaps.init())
-        .pipe(babel({
-            presets: ['env']
-        }))
-        .pipe(uglify())
-        .pipe(sourcemaps.write('.'))
-        .pipe(gulp.dest(gConfig.build.build_js));
+gulp.task('scripts', function() {
+  gulp
+    .src(gConfig.app_file.js_src)
+    .pipe(plumber())
+    .pipe(sourcemaps.init())
+    .pipe(
+      babel({
+        presets: ['env']
+      })
+    )
+    .pipe(uglify())
+    .pipe(sourcemaps.write('.'))
+    .pipe(gulp.dest(gConfig.build.build_js));
 });
 
-
-
-gulp.task('libs', function () {
-    gulp.src(gConfig.app_file.libs)
-        .pipe(plumber())
-        .pipe(concat('vender.js'))
-        .pipe(uglify())
-        .pipe(gulp.dest(gConfig.build.build_libs));
+gulp.task('libs', function() {
+  gulp
+    .src(gConfig.app_file.libs)
+    .pipe(plumber())
+    .pipe(concat('vender.js'))
+    .pipe(uglify())
+    .pipe(gulp.dest(gConfig.build.build_libs));
 });
 
-gulp.task('generate-service-worker', () => {
-    return workbox.generateSW({
-      globDirectory: `${gConfig.build.dir}`,
-      globPatterns: [
-        '**/*.{html,js,css,jpeg,png,svg,jpg,webp}'
-      ],
-      swDest: `./sw.js`,
-      clientsClaim: true,
-      skipWaiting: true
-    }).then(({warnings}) => {
-      // In case there are any warnings from workbox-build, log them.
-      for (const warning of warnings) {
-        console.warn(warning);
-      }
-      console.info('Service worker generation completed.');
-    }).catch((error) => {
-      console.warn('Service worker generation failed:', error);
-    });
+gulp.task('sw', () => {
+  return workbox.injectManifest({
+    globDirectory: `${gConfig.build.dir}`,
+    globPatterns: ['**/*.{html,js,css,jpeg,png,svg,jpg,webp}'],
+    swDest: `dist/sw.js`,
+    swSrc: 'src-sw.js'
   });
-
-gulp.task('sw', function () {
-    gulp.src(gConfig.app_file.sw_src)
-        .pipe(gulp.dest(gConfig.build.dir));
 });
 
-gulp.task('watch', function () {
-    gulp.watch(gConfig.app_file.img_src, ['images']);
-    gulp.watch(gConfig.app_file.html_src, ['html']);
-    gulp.watch(gConfig.app_file.sw_src, ['sw']);
-    gulp.watch(gConfig.app_file.scss_src, ['styles', 'inline-css']);
-    gulp.watch(gConfig.app_file.js_src, ['scripts']);
+
+gulp.task('watch', function() {
+  gulp.watch(gConfig.app_file.img_src, ['images', 'sw']);
+  gulp.watch(gConfig.app_file.html_src, ['html', 'sw']);
+  gulp.watch(gConfig.app_file.scss_src, ['styles', 'inline-css', 'sw']);
+  gulp.watch(gConfig.app_file.js_src, ['scripts', 'sw']);
 });
