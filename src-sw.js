@@ -27,32 +27,15 @@ workbox.routing.registerRoute(
     new RegExp('http://localhost:1337/reviews/?restaurant_id=[0-9]+'),
     workbox.strategies.staleWhileRevalidate()
 );
-/*
-workbox.routing.registerRoute(
-    new RegExp('https://maps.googleapis.com/maps'),
-    workbox.strategies.cacheFirst()
-);
-*/
+
 const bgSyncPlugin = new workbox.backgroundSync.Plugin('reviewQuery', {
     maxRetentionTime: 24 * 60 // Retry for max of 24 Hours
-  });
+});
 
-  workbox.routing.registerRoute(
+workbox.routing.registerRoute(
     /\/reviews/,
     workbox.strategies.networkOnly({
-      plugins: [bgSyncPlugin]
+        plugins: [bgSyncPlugin]
     }),
     'POST'
-  );
-
-const queue = new workbox.backgroundSync.Queue('reviewQuery');
-
-self.addEventListener('fetch', (event) => {
-  // Clone the request to ensure it's save to read when
-  // adding to the Queue.
-  const promiseChain = fetch(event.request.clone())
-  .catch((err) => {
-      return queue.addRequest(event.request);
-  });
-  event.waitUntil(promiseChain);
-});
+);

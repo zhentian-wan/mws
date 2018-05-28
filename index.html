@@ -13,65 +13,66 @@
 </head>
 
 <body>
-    <header>
-        <nav>
-            <h1>
-                <a href="/">Restaurant Reviews</a>
-            </h1>
-        </nav>
-    </header>
-    <!-- Skip link -->
-    <a href="#list-container" aria-label="Skip map to main content" class="skip-link">Skip map to main content</a>
-    <main id="maincontent">
-        <!-- Map area -->
-        <section id="map-container" class="hidden" aria-label="Google map" role="application">
-            <div id="map"></div>
-        </section>
-        <section id="list-container" aria-labelledby="filter-options-title" tabindex="-1">
+<header>
+    <nav>
+        <h1>
+            <a href="/">Restaurant Reviews</a>
+        </h1>
+    </nav>
+</header>
+<!-- Skip link -->
+<a href="#list-container" aria-label="Skip map to main content" class="skip-link">Skip map to main content</a>
+<main id="maincontent">
+    <!-- Map area -->
+    <section id="map-container" class="hidden" aria-label="Google map" role="application">
+        <div id="map"></div>
+    </section>
+    <section id="list-container" aria-labelledby="filter-options-title" tabindex="-1">
 
-            <!-- filters -->
-            <div class="filter-options">
-                <div style="display: flex; justify-content: space-between;">
-                    <h2 id="filter-options-title">Filter Results</h2>
-                    <button onclick="showMap()" class="openMap">
-                        Open map view
-                    </button>
-                </div>
-                <select id="neighborhoods-select" name="neighborhoods" aria-label="filter by neighborhoods" onchange="updateRestaurants()">
-                    <option value="all">All Neighborhoods</option>
-                </select>
-                <select id="cuisines-select" name="cuisines" aria-label="filter by cuisines" onchange="updateRestaurants()">
-                    <option value="all">All Cuisines</option>
-                </select>
+        <!-- filters -->
+        <div class="filter-options">
+            <div style="display: flex; justify-content: space-between;">
+                <h2 id="filter-options-title">Filter Results</h2>
+                <button onclick="showMap()" class="openMap">
+                    Open map view
+                </button>
             </div>
-            <!-- restaurants list -->
-            <h2 style="text-align: center;">Restaurant List</h2>
-            <ul id="restaurants-list" aria-label="All restaurants lists">
+            <select id="neighborhoods-select" name="neighborhoods" aria-label="filter by neighborhoods"
+                    onchange="updateRestaurants()">
+                <option value="all">All Neighborhoods</option>
+            </select>
+            <select id="cuisines-select" name="cuisines" aria-label="filter by cuisines" onchange="updateRestaurants()">
+                <option value="all">All Cuisines</option>
+            </select>
+        </div>
+        <!-- restaurants list -->
+        <h2 style="text-align: center;">Restaurant List</h2>
+        <ul id="restaurants-list" aria-label="All restaurants lists">
 
-            </ul>
-            <ul id="restaurants-list" aria-label="All restaurants lists">
-            </ul>
-        </section>
-    </main>
+        </ul>
+        <ul id="restaurants-list" aria-label="All restaurants lists">
+        </ul>
+    </section>
+</main>
 
-    <script charset="utf-8" src="libs/vender.js"></script>
-    <script charset="utf-8" src="js/dbhelper.js"></script>
-    <script charset="utf-8" src="js/main.js"></script>
+<script charset="utf-8" src="libs/vender.js"></script>
+<script charset="utf-8" src="js/dbhelper.js"></script>
+<script charset="utf-8" src="js/main.js"></script>
 
-    <script>
-        window.addEventListener('load', () => {
-            if ('serviceWorker' in navigator) {
-                navigator.serviceWorker
-                    .register('/sw.js');
-            }
-        });
-    </script>
-    <footer id="footer">
-        Copyright (c) 2017
-        <a href="/">
-            <strong>Restaurant Reviews</strong>
-        </a> All Rights Reserved.
-    </footer>
+<script>
+    window.addEventListener('load', () => {
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker
+                .register('/sw.js');
+        }
+    });
+</script>
+<footer id="footer">
+    Copyright (c) 2017
+    <a href="/">
+        <strong>Restaurant Reviews</strong>
+    </a> All Rights Reserved.
+</footer>
 
 </body>
 
