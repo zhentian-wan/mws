@@ -4,11 +4,7 @@ let map; // eslint-disable-line no-unused-vars
 const reviewForm = document.getElementById('review-form');
 reviewForm.addEventListener('submit', hanldePostReview);
 
-(() => {
-  self.installOfflineWatcher((offline) => {
-    isAppOffline(offline);
-  });
-})();
+
 /**
  * Initialize Google map, called from HTML.
  */
@@ -17,18 +13,7 @@ window.initMap = () => {
   fetchReviewFromURL();
 };
 
-function isAppOffline(offline) {
-  const els = document.querySelectorAll('.offline');
-  if (offline) {
-    els.forEach(el => el.classList.remove('hidden'));
-  } else {
-    els.forEach(el => {
-      if (!el.classList.contains('hidden')) {
-        el.classList.add('hidden');
-      }
-    });
-  }
-}
+
 
 const handleFetchReview = (error, reviews) => {
   if (error) {

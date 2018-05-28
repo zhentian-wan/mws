@@ -17,6 +17,7 @@
     <nav>
         <h1>
             <a href="/">Restaurant Reviews</a>
+            <span class="offline offline-hint hidden">offline</span>
         </h1>
     </nav>
 </header>
@@ -48,16 +49,15 @@
         <!-- restaurants list -->
         <h2 style="text-align: center;">Restaurant List</h2>
         <ul id="restaurants-list" aria-label="All restaurants lists">
-
-        </ul>
-        <ul id="restaurants-list" aria-label="All restaurants lists">
         </ul>
     </section>
 </main>
 
+<script charset="utf-8" src="js/network.js"></script>
 <script charset="utf-8" src="libs/vender.js"></script>
 <script charset="utf-8" src="js/dbhelper.js"></script>
 <script charset="utf-8" src="js/main.js"></script>
+<script charset="utf-8" src="js/common.js"></script>
 
 <script>
     window.addEventListener('load', () => {
