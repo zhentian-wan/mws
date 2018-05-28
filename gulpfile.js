@@ -99,7 +99,7 @@ gulp.task('html', function() {
 
 gulp.task('inline-css', function() {
   return gulp
-    .src(gConfig.build.dir + '/*.html')
+    .src(gConfig.build.dir + '/**/*.html')
     .pipe(inlineStyle('dist'))
     .pipe(gulp.dest('dist'));
 });

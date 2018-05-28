@@ -34,7 +34,7 @@
         <div class="filter-options">
             <div style="display: flex; justify-content: space-between;">
                 <h2 id="filter-options-title">Filter Results</h2>
-                <button onclick="showMap()" class="openMap">
+                <button id="toggleMapButton" onclick="showMap()" class="openMap">
                     Open map view
                 </button>
             </div>
@@ -53,11 +53,9 @@
     </section>
 </main>
 
-<script charset="utf-8" src="js/network.js"></script>
 <script charset="utf-8" src="libs/vender.js"></script>
 <script charset="utf-8" src="js/dbhelper.js"></script>
 <script charset="utf-8" src="js/main.js"></script>
-<script charset="utf-8" src="js/common.js"></script>
 
 <script>
     window.addEventListener('load', () => {

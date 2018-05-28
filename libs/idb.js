@@ -301,7 +301,7 @@
     }
   };
 
-  if (typeof module !== 'undefined') {
+    if (typeof module !== 'undefined') {
     module.exports = exp;
     module.exports.default = module.exports;
   }

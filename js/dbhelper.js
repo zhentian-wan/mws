@@ -88,7 +88,7 @@ class DBHelper {
         return fetch(`${DBHelper.REVIEW_URL}/?restaurant_id=${id}`)
             .then(res => res.json())
             .then((reviews = []) => {
-                callback(null, reviews);
+                return callback(null, reviews);
             })
             .catch(err => callback(err, null));
     }

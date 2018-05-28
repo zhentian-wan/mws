@@ -23,7 +23,7 @@ ul, li {
     color: #333;
 }
 a {
-    color: darkorange;
+    color: orangered;
     text-decoration: none;
 }
 a:hover, a:focus {
@@ -86,7 +86,7 @@ nav h1 a {
 }
 .filter-options {
     padding: 20px 40px;
-    background-color: #3397DB;
+    background-color: blueviolet;
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
@@ -113,6 +113,10 @@ nav h1 a {
     height: 400px;
     width: 100%;
     background-color: #ccc;
+}
+
+#map:empty {
+    content: 'You are currently offine'
 }
 
 /* ====================== Restaurant Listing ====================== */
@@ -148,7 +152,7 @@ nav h1 a {
     }
 
 #restaurants-list li h3 {
-    color: #f18200;
+    color: orangered;
     font-family: Arial, sans-serif;
     font-size: 14pt;
     font-weight: 200;
@@ -169,7 +173,7 @@ nav h1 a {
 }
 
 #restaurants-list li a {
-    background-color: darkorange;
+    background-color: orangered;
     border-bottom: 3px solid #eee;
     color: #fff;
     display: inline-block;
@@ -311,5 +315,5 @@ nav h1 a {
 }
 
 .toggle-star {
-    color: darkorange;
+    color: orangered;
 }

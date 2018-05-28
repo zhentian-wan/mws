@@ -4,6 +4,31 @@ let restaurants, // eslint-disable-line no-unused-vars
     observer; // eslint-disable-line no-unused-vars
 let map; // eslint-disable-line no-unused-vars
 let markers = []; // eslint-disable-line no-unused-vars
+
+const installOfflineWatcher = (offlineUpdatedCallback) => {
+    window.addEventListener('online', () => offlineUpdatedCallback(false));
+    window.addEventListener('offline', () => offlineUpdatedCallback(true));
+
+    offlineUpdatedCallback(navigator.onLine === false);
+};
+
+self.installOfflineWatcher = installOfflineWatcher;
+self.installOfflineWatcher((offline) => {
+    isAppOffline(offline);
+});
+
+function isAppOffline(offline) {
+    const els = document.querySelectorAll('.offline');
+    if (offline) {
+        els.forEach(el => el.classList.remove('hidden'));
+    } else {
+        els.forEach(el => {
+            if (!el.classList.contains('hidden')) {
+                el.classList.add('hidden');
+            }
+        });
+    }
+}
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
@@ -100,6 +125,10 @@ window.initMap = () => {
 };
 
 window.showMap = () => {
+    const contianer = document.getElementById("map-container");
+    if(contianer.classList.contains('active')) {
+        return;
+    }
     let script;
     script = document.createElement('script');
     script.type = 'text/javascript';
@@ -108,11 +137,11 @@ window.showMap = () => {
     document.getElementsByTagName('head')[0].appendChild(script);
 
     requestAnimationFrame(() => {
-        const contianer = document.getElementById("map-container");
+
         contianer.classList.remove('hidden');
         contianer.classList.add('active');
     });
-}
+};
 
 const handlerCuisineAndNeighborhod = (error, restaurants) => {
     if (error) {
