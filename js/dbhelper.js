@@ -1,35 +1,3 @@
-let DBPromise;
-
-(() => {
-  DBPromise = openIDB();
-
-  function openIDB() {
-    return idb.open('restaurant-app', 3, db => {
-      switch (db.oldVersion) {
-        case 0: {
-          // Create table 'restaurants', primary key is id
-          const store = db.createObjectStore('restaurants', {
-            keyPath: 'id'
-          });
-          // if index is needed, put down below
-          store.createIndex('by-name', 'name');
-        }
-
-        case 1: {
-          // eslint-disable-line
-          db.createObjectStore('cuisines');
-          db.createObjectStore('neighborhoods');
-        }
-
-        case 2: {
-          // eslint-disable-line
-          db.createObjectStore('detail', { keyPath: 'id' });
-        }
-      }
-    });
-  }
-})();
-
 /**
  * photograph no longer return 1.jpg
  in api returns 1, so format data here
@@ -82,54 +50,6 @@ class DBHelper {
     this.restaurants = restaurants;
   }
 
-  static fetchRestaurantsFromCache(callback) {
-    return DBPromise.then(db => {
-      // only fetch from db once
-      if (!db || (this.restaurants && this.restaurants.length)) {
-        return;
-      }
-
-      const tx = db.transaction('restaurants');
-      const store = tx.objectStore('restaurants').index('by-name');
-      return store
-        .getAll()
-        .then(data => callback(null, data))
-        .catch(err => callback(err, null));
-    });
-  }
-
-  static fetchNeighborhoodsFromCache(callback) {
-    return DBPromise.then(db => {
-      // only fetch from db once
-      if (!db || (this.resneighborhoodstaurants && this.neighborhoods.length)) {
-        return;
-      }
-
-      const tx = db.transaction('neighborhoods');
-      const store = tx.objectStore('neighborhoods');
-      return store
-        .getAll()
-        .then(data => callback(null, data))
-        .catch(err => callback(err, null));
-    });
-  }
-
-  static fetchCuisinesFromCache(callback) {
-    return DBPromise.then(db => {
-      // only fetch from db once
-      if (!db || (this.cuisines && this.cuisines.length)) {
-        return;
-      }
-
-      const tx = db.transaction('cuisines');
-      const store = tx.objectStore('cuisines');
-      return store
-        .getAll()
-        .then(data => callback(null, data))
-        .catch(err => callback(err, null));
-    });
-  }
-
   /**
    * Fetch all restaurants.
    */
@@ -141,36 +61,8 @@ class DBHelper {
     fetch(DBHelper.DATABASE_URL)
       .then(res => res.json())
       .then(formatRestaurantsData)
-      .then(data => {
-        DBPromise.then(db => {
-          const tx = db.transaction('restaurants', 'readwrite');
-          const store = tx.objectStore('restaurants');
-          data && data.forEach(d => store.put(d));
-          return tx.complete;
-        });
-        return data;
-      })
       .then(restaurants => callback(null, restaurants))
-      .then(restaurants => DBHelper.setLocalData(restaurants))
       .catch(error => callback(error, null));
-  }
-
-  static fetchRestaurantByIdFromCache(id, callback) {
-    return DBPromise.then(db => {
-      // only fetch from db once
-      if (!db || (this.details && this.details[id])) {
-        return;
-      }
-
-      const tx = db.transaction('detail');
-      const store = tx.objectStore('detail');
-      return store
-        .get(Number(id))
-        .then(data => {
-          callback(null, data);
-        })
-        .catch(err => callback(err, null));
-    });
   }
 
   /**
@@ -180,16 +72,6 @@ class DBHelper {
     fetch(`${DBHelper.DATABASE_URL}/${id}`)
       .then(res => res.json())
       .then(formatSingleRestaurantData)
-      .then(restaurant => {
-        DBPromise.then(db => {
-          const tx = db.transaction('detail', 'readwrite');
-          const store = tx.objectStore('detail');
-          store.put(restaurant);
-          return tx.complete;
-        });
-        this.details = Object.assign({}, this.details, { [id]: restaurant });
-        return restaurant;
-      })
       .then(restaurant => {
         if (restaurant) {
           // Got the restaurant
@@ -295,13 +177,6 @@ class DBHelper {
           (v, i) => neighborhoods.indexOf(v) == i
         );
 
-        DBPromise.then(db => {
-          const tx = db.transaction('neighborhoods', 'readwrite');
-          const store = tx.objectStore('neighborhoods');
-
-          uniqueNeighborhoods &&
-            uniqueNeighborhoods.forEach((d, i) => store.put(d, i));
-        });
         callback(null, uniqueNeighborhoods);
       }
     });
@@ -322,13 +197,6 @@ class DBHelper {
         const uniqueCuisines = cuisines.filter(
           (v, i) => cuisines.indexOf(v) == i
         );
-
-        DBPromise.then(db => {
-          const tx = db.transaction('cuisines', 'readwrite');
-          const store = tx.objectStore('cuisines');
-
-          uniqueCuisines && uniqueCuisines.forEach((d, i) => store.put(d, i));
-        });
         callback(null, uniqueCuisines);
       }
     });

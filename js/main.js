@@ -22,14 +22,9 @@ let markers = []; // eslint-disable-line no-unused-vars
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
 document.addEventListener('DOMContentLoaded', () => {
-
-  DBHelper.fetchNeighborhoodsFromCache(handleNeighborhoods).then(() => {
-    fetchNeighborhoods();
-  });
-  DBHelper.fetchCuisinesFromCache(handleCuisines).then(() => {
-    fetchCuisines();
-  });
-  DBHelper.fetchRestaurantsFromCache(handlerCuisineAndNeighborhod);
+  DBHelper.fetchNeighborhoods(handleNeighborhoods);
+  DBHelper.fetchCuisines(handleCuisines);
+  DBHelper.fetchRestaurants(handlerCuisineAndNeighborhod);
 });
 
 /**
@@ -51,12 +46,6 @@ observer = new IntersectionObserver(changes => {
   }
 });
 
-/**
- * Fetch all neighborhoods and set their HTML.
- */
-const fetchNeighborhoods = () => {
-  DBHelper.fetchNeighborhoods(handleNeighborhoods);
-};
 
 const handleNeighborhoods = (error, neighborhoods) => {
   if (error) {
@@ -82,12 +71,6 @@ const fillNeighborhoodsHTML = (neighborhoods = self.neighborhoods) => {
   });
 };
 
-/**
- * Fetch all cuisines and set their HTML.
- */
-const fetchCuisines = () => {
-  DBHelper.fetchCuisines(handleCuisines);
-};
 
 const handleCuisines = (error, cuisines) => {
   if (error) {
