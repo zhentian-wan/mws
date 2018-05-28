@@ -15,7 +15,9 @@ workbox.routing.registerRoute(
 
 workbox.routing.registerRoute(
     new RegExp('http://localhost:1337/restaurants'),
-    workbox.strategies.cacheFirst()
+    workbox.strategies.staleWhileRevalidate({
+        cacheName: 'my-restaurants-cache'
+    })
 );
 
 workbox.routing.registerRoute(
@@ -28,14 +30,26 @@ workbox.routing.registerRoute(
     workbox.strategies.staleWhileRevalidate()
 );
 
-const bgSyncPlugin = new workbox.backgroundSync.Plugin('reviewQuery', {
+const reviewBgSyncPlugin = new workbox.backgroundSync.Plugin('reviewQuery', {
     maxRetentionTime: 24 * 60 // Retry for max of 24 Hours
 });
 
 workbox.routing.registerRoute(
     /\/reviews/,
     workbox.strategies.networkOnly({
-        plugins: [bgSyncPlugin]
+        plugins: [reviewBgSyncPlugin]
     }),
     'POST'
+);
+
+const restBgSyncPlugin = new workbox.backgroundSync.Plugin('restaurantQuery', {
+    maxRetentionTime: 24 * 60 // Retry for max of 24 Hours
+});
+
+workbox.routing.registerRoute(
+    /\/restaurants\/[0-9]+\/?is_favorite/,
+    workbox.strategies.networkOnly({
+        plugins: [restBgSyncPlugin]
+    }),
+    'PUT'
 );

@@ -23,7 +23,7 @@ ul, li {
     color: #333;
 }
 a {
-    color: orange;
+    color: darkorange;
     text-decoration: none;
 }
 a:hover, a:focus {
@@ -159,6 +159,7 @@ nav h1 a {
 }
 
 .restaurant-info {
+    position: relative;
     padding: 0 30px 25px;
 }
 
@@ -168,7 +169,7 @@ nav h1 a {
 }
 
 #restaurants-list li a {
-    background-color: orange;
+    background-color: darkorange;
     border-bottom: 3px solid #eee;
     color: #fff;
     display: inline-block;
@@ -298,4 +299,17 @@ nav h1 a {
     color: white;
     background: red;
     font-weight: bold;
+}
+
+.restaurant-star {
+    position: absolute;
+    top: 1px;
+    right: 18px;
+    font-size: 1.2em;
+    cursor: pointer;
+    outline: none;
+}
+
+.toggle-star {
+    color: darkorange;
 }
