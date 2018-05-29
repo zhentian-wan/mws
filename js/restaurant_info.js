@@ -68,12 +68,16 @@ function hanldePostReview(event) {
         const rating = document.getElementById('review-select-rating').value || '';
         const comments =
             document.getElementById('review-textarea-comments').value || '';
+        const time = +new Date();
+
 
         DBHelper.postNewReview({
             restaurant_id: id,
             name,
             rating,
-            comments
+            comments,
+            createdAt: time,
+            updatedAt: time
         })
             .then((review) => {
                 addToReviewList(review);
