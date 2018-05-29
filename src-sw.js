@@ -1,5 +1,5 @@
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.0.0/workbox-sw.js');
-workbox.setConfig({ debug: false });
+workbox.setConfig({ debug: true });
 workbox.skipWaiting();
 workbox.clientsClaim();
 
@@ -57,21 +57,17 @@ const bgSyncPlugin = new workbox.backgroundSync.Plugin('reviewQuery', {
 });
 
 workbox.routing.registerRoute(
-    /\/reviews/,
+    /reviews\/.*/,
     workbox.strategies.networkOnly({
       plugins: [bgSyncPlugin]
     }),
     'POST'
 );
 
-const restBgSyncPlugin = new workbox.backgroundSync.Plugin('restaurantQuery', {
-    maxRetentionTime: 24 * 60 // Retry for max of 24 Hours
-});
-
 workbox.routing.registerRoute(
-    /\/restaurants\/[0-9]+\/?is_favorite/,
+    /restaurants\/[0-9]+\/?is_favorite.*/,
     workbox.strategies.networkOnly({
-        plugins: [restBgSyncPlugin]
+        plugins: [bgSyncPlugin]
     }),
     'PUT'
 );

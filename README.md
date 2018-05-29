@@ -18,6 +18,7 @@ Instead, please turn off your computers network or turn off your web server.
 
 checkout more about this on [workbox doc](https://developers.google.com/web/tools/workbox/modules/workbox-background-sync)
 
+![pic](bg.png)
 
 ### Install
 
