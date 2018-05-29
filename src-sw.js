@@ -15,7 +15,9 @@ workbox.routing.registerRoute(
 
 workbox.routing.registerRoute(
     new RegExp('http://localhost:1337/restaurants'),
-    workbox.strategies.cacheFirst()
+    workbox.strategies.cacheFirst({
+        cacheName: 'my-restaurants-cache'
+    })
 );
 
 workbox.routing.registerRoute(
@@ -25,7 +27,9 @@ workbox.routing.registerRoute(
 
 workbox.routing.registerRoute(
     new RegExp('http://localhost:1337/reviews'),
-    workbox.strategies.staleWhileRevalidate()
+    workbox.strategies.staleWhileRevalidate({
+        cacheName: 'my-reviews-cache'
+    })
 );
 
 workbox.routing.registerRoute(
