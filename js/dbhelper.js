@@ -99,25 +99,30 @@ class DBHelper {
             body: JSON.stringify(review)
         })
             .then((res) => {
-                DBHelper.updateReviews(review);
+
                 return res.json();
+            })
+            .finally(() => {
+                DBHelper.updateReviews(review);
             });
     }
 
     static updateReviews(review) {
         window.caches.open('my-reviews-cache')
-            .then((caches) => caches.keys())
-            .then(requests => {
-                requests.forEach(r => {
-                    caches.match(r)
-                        .then(res => res.json())
-                        .then(data => {
-                            const newData = [...data, review];
-                            return caches.put(r, new Response(`${JSON.stringify(newData)}`, {
-                                headers: {"Content-Type": "application/json"}
-                            }));
-                        });
-                })
+            .then((caches) => {
+                return caches.keys()
+                    .then(requests => {
+                        requests.forEach(r => {
+                            caches.match(r)
+                                .then(res => res.json())
+                                .then(data => {
+                                    const newData = [...data, review];
+                                    return caches.put(r, new Response(`${JSON.stringify(newData)}`, {
+                                        headers: {"Content-Type": "application/json"}
+                                    }));
+                                });
+                        })
+                    });
             });
     }
 
