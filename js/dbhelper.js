@@ -107,6 +107,30 @@ class DBHelper {
             });
     }
 
+    static updateRestaurants(isFavorite, id) {
+        window.caches.open('my-restaurants-cache')
+            .then(caches => {
+                return caches.keys()
+                    .then(requests => {
+                        requests.forEach(r => {
+                            caches.match(r)
+                                .then(res => res.json())
+                                .then(data => {
+                                    const newData = data.map(d => {
+                                        if (Number(d.id) === Number(id)) {
+                                            d['is_favorite'] = isFavorite;
+                                        }
+                                        return d;
+                                    });
+                                    return caches.put(r, new Response(`${JSON.stringify(newData)}`, {
+                                        headers: {"Content-Type": "application/json"}
+                                    }));
+                                })
+                        });
+                    });
+            })
+    }
+
     static updateReviews(review) {
         window.caches.open('my-reviews-cache')
             .then((caches) => {
@@ -291,6 +315,8 @@ class DBHelper {
     static markRestaurantAsFavorite(isFavorite, id) {
         return fetch(`${DBHelper.DATABASE_URL}/${id}/?is_favorite=${isFavorite}`, {
             method: 'PUT'
+        }).finally(() => {
+            DBHelper.updateRestaurants(isFavorite, id);
         });
     }
 }
