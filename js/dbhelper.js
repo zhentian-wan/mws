@@ -99,8 +99,10 @@ class DBHelper {
             body: JSON.stringify(review)
         })
             .then((res) => {
-
                 return res.json();
+            })
+            .catch(() => {
+                return review;
             })
             .finally(() => {
                 DBHelper.updateReviews(review);
@@ -116,6 +118,9 @@ class DBHelper {
                             caches.match(r)
                                 .then(res => res.json())
                                 .then(data => {
+                                    if(!Array.isArray(data)) {
+                                        return;
+                                    }
                                     const newData = data.map(d => {
                                         if (Number(d.id) === Number(id)) {
                                             d['is_favorite'] = isFavorite;
@@ -132,11 +137,15 @@ class DBHelper {
     }
 
     static updateReviews(review) {
+        const restaurant_id = review.restaurant_id;
         window.caches.open('my-reviews-cache')
             .then((caches) => {
                 return caches.keys()
                     .then(requests => {
                         requests.forEach(r => {
+                            if(r.url.indexOf(`restaurant_id=${restaurant_id}`) === -1) {
+                                return;
+                            }
                             caches.match(r)
                                 .then(res => res.json())
                                 .then(data => {

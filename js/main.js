@@ -235,16 +235,17 @@ const createRestaurantHTML = restaurant => {
     star.innerHTML = restaurant.is_favorite ? likeContent : normalContent;
     star.addEventListener('click', (e) => {
         e.preventDefault();
-        let isFavorite = star.classList.contains('toggle-star');
+        let isFavorite;
         if (!star.classList.contains('toggle-star')) {
             star.innerHTML = "★";
             star.classList.add('toggle-star');
-
+            isFavorite = true;
         } else {
             star.innerHTML = "☆";
             star.classList.remove('toggle-star');
+            isFavorite = false;
         }
-        DBHelper.markRestaurantAsFavorite(!isFavorite, restaurant.id);
+        DBHelper.markRestaurantAsFavorite(isFavorite, restaurant.id);
     });
     info.append(star);
 

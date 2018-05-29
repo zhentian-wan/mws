@@ -81,12 +81,16 @@ function hanldePostReview(event) {
         })
             .then((review) => {
                 addToReviewList(review);
+            })
+            .catch((err) => {
+                if (err.data) {
+                    addToReviewList(err.data);
+                }
+            })
+            .finally(() => {
                 if (reviewForm) {
                     reviewForm.reset();
                 }
-            })
-            .catch(err => {
-                console.error('Cannot create new review', err);
             });
     } else {
         console.error('hanldePostReview: No resutaurant id present');

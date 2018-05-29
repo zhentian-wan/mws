@@ -8,6 +8,17 @@
 
 Thanks for your time reviewing my works, here is the instruction to help you easily run the project.
 
+**IMPORTANT NOTE:**
+
+When testing offline review post 
+
+**DO NOT USE CHROME DEVTOOLS OFFLINE.**
+
+Instead, please turn off your computers network or turn off your web server.
+
+checkout more about this on [workbox doc](https://developers.google.com/web/tools/workbox/modules/workbox-background-sync)
+
+
 ### Install
 
 ```bash
