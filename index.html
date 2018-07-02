@@ -15,69 +15,69 @@
 
     <meta name="msapplication-TileImage" content="assets/icon.png">
     <meta name="msapplication-TileColor" content="#000">
+    <link rel="prefetch" as="style" onload="this.rel = 'stylesheet'" href='https://fonts.googleapis.com/css?family=Roboto:400,500|Material+Icons'>
     <link rel="stylesheet" href="css/styles.css">
     <title>Restaurant Reviews</title>
 </head>
 
 <body>
-<header>
-    <nav>
-        <h1>
-            <a href="/">Restaurant Reviews</a>
-            <span class="offline offline-hint hidden">offline</span>
-        </h1>
-    </nav>
-</header>
-<!-- Skip link -->
-<a href="#list-container" aria-label="Skip map to main content" class="skip-link">Skip map to main content</a>
-<main id="maincontent">
-    <!-- Map area -->
-    <section id="map-container" class="hidden" aria-label="Google map" role="application">
-        <div id="map"></div>
-    </section>
-    <section id="list-container" aria-labelledby="filter-options-title" tabindex="-1">
+    <header>
+        <nav>
+            <h1>
+                <a href="/">Restaurant Reviews</a>
+                <span class="offline offline-hint hidden">offline</span>
+            </h1>
+        </nav>
+    </header>
+    <!-- Skip link -->
+    <a href="#list-container" aria-label="Skip map to main content" class="skip-link">Skip map to main content</a>
+    <main id="maincontent">
+        <!-- Map area -->
+        <section id="map-container" class="hidden" aria-label="Google map" role="application">
+            <div id="map"></div>
+        </section>
+        <section id="list-container" aria-labelledby="filter-options-title" tabindex="-1">
 
-        <!-- filters -->
-        <div class="filter-options">
-            <div style="display: flex; justify-content: space-between;">
-                <h2 id="filter-options-title">Filter Results</h2>
-                <button id="toggleMapButton" onclick="showMap()" class="openMap">
-                    Open map view
-                </button>
+            <!-- filters -->
+            <div class="filter-options">
+                <div style="display: flex; justify-content: space-between;">
+                    <h2 id="filter-options-title">Filter Results</h2>
+                    <button id="toggleMapButton" onclick="showMap()" class="openMap">
+                        Open map view
+                    </button>
+                </div>
+                <select id="neighborhoods-select" name="neighborhoods" aria-label="filter by neighborhoods" onchange="updateRestaurants()">
+                    <option value="all">All Neighborhoods</option>
+                </select>
+                <select id="cuisines-select" name="cuisines" aria-label="filter by cuisines" onchange="updateRestaurants()">
+                    <option value="all">All Cuisines</option>
+                </select>
             </div>
-            <select id="neighborhoods-select" name="neighborhoods" aria-label="filter by neighborhoods"
-                    onchange="updateRestaurants()">
-                <option value="all">All Neighborhoods</option>
-            </select>
-            <select id="cuisines-select" name="cuisines" aria-label="filter by cuisines" onchange="updateRestaurants()">
-                <option value="all">All Cuisines</option>
-            </select>
-        </div>
-        <!-- restaurants list -->
-        <h2 style="text-align: center;">Restaurant List</h2>
-        <ul id="restaurants-list" aria-label="All restaurants lists">
-        </ul>
-    </section>
-</main>
+            <!-- restaurants list -->
+            <h2 style="text-align: center;">Restaurant List</h2>
+            <ul id="restaurants-list" aria-label="All restaurants lists">
+            </ul>
+        </section>
+    </main>
 
-<script charset="utf-8" src="libs/vender.js"></script>
-<script charset="utf-8" src="js/dbhelper.js"></script>
-<script charset="utf-8" src="js/main.js"></script>
+    <script charset="utf-8" src="libs/vender.js"></script>
+    <script charset="utf-8" src="js/dbhelper.js"></script>
+    <script charset="utf-8" src="js/main.js"></script>
 
-<script>
-    window.addEventListener('load', () => {
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker
-                .register('/sw.js');
-        }
-    });
-</script>
-<footer id="footer">
-    Copyright (c) 2017
-    <a href="/">
-        <strong>Restaurant Reviews</strong>
-    </a> All Rights Reserved.
-</footer>
+    <script>
+        window.addEventListener('load', () => {
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker
+                    .register('/sw.js');
+            }
+        });
+    </script>
+    <footer id="footer">
+        Copyright (c) 2017
+        <a href="/">
+            <strong>Restaurant Reviews</strong>
+        </a> All Rights Reserved.
+    </footer>
 
 </body>
 
