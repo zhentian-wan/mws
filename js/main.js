@@ -55,6 +55,9 @@ observer = new IntersectionObserver(changes => {
         }
         observer.unobserve(change.target);
     }
+}, {
+    rootMargin: '50px',
+    threshold: 0.25
 });
 
 
